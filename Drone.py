@@ -1,5 +1,5 @@
 '''
-Created on 11 févr. 2016
+Created on 11 fevr. 2016
 
 @author: capitaine slip
 '''
@@ -54,9 +54,9 @@ class Drone(object):
             raise ValueError
     
     def __str__(self):
-        print "Drone id " + self.id + " , maxPayload : " + self.payloadWeight
-        print "payload [" + self.payload + "]"
-        print "current weight " + self.currentPayloadWeight
+        return "Drone id " + str(self.id) + " , maxPayload : " + str(self.payloadWeight) +"\n"
+        + "payload [" + str(self.payload) + "]\n"
+        + "current weight " + str(self.currentPayloadWeight)
         
 if __name__ == "__main__":
     D = Drone(0,10,20,30)
