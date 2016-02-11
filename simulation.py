@@ -1,12 +1,26 @@
 from __future__ import division
 import parser
-
+from Drone import Drone
+from Warehouse import Warehouse
+from Order import Order
 
 class Simulation(object):
 
     def __init__(self, paramDict, solver):
-        for e in paramDict:
-            setattr(self, e, paramDict[e])
+        self.cols = params['y']
+        self.rows = params['x']
+        self.nbTurns = params['turns']
+        self.weights = params['weights']
+        self.warehouses = []
+        for place, invent_dict in params['warehouses']:
+            self.warehouses.append(Warehouse(place, invent_dict))
+        self.orders = []
+        for place, invent_dict in params['orders']:
+            self.orders.append(Order(place, invent_dict))
+        self.drones = []
+        for e in params['nb_drones']:
+            self.drones.append(Drone(payload, init_pos))
+
         self.score = 0.0
         self.solver = solver
 
