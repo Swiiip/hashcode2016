@@ -47,16 +47,16 @@ class Drone(object):
         
         return 1
     
-    def takeCommand(self,commandType,param):    
-        self.command = param
-        self.commandType = commandType
-        if commandType == 'D':
+    def takeCommand(self,param):    
+        self.command = param[1:]
+        self.commandType = param[0]
+        if self.commandType == 'D':
             self.timeleft = self.goto(param[0]) + 1
             self.busy = True
-        if commandType == 'W':
+        if self.commandType == 'W':
             self.timeleft = param[0]
             self.busy = True 
-        if commandType == 'L' or commandType == 'U':
+        if self.commandType == 'L' or self.commandType == 'U':
             self.timeleft = self.gotoWH(param[0])
             self.busy =True
         
@@ -131,7 +131,6 @@ if __name__ == "__main__":
     print D.gotoWH(W)
     print D.load(0, 4, W)
     print D.unload(0, 1, W)
-    print D.deliver(0,1)
     D.takeCommand('W', [4])
     print D.busy
     D.step()

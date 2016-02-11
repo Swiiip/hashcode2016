@@ -6,7 +6,7 @@ from Order import Order
 
 class Simulation(object):
 
-    def __init__(self, paramDict, solver):
+    def __init__(self, params, solver):
         self.cols = params['y']
         self.rows = params['x']
         self.nbTurns = params['turns']
@@ -19,7 +19,7 @@ class Simulation(object):
             self.orders.append(Order(place, invent_dict))
         self.drones = []
         for e in params['nb_drones']:
-            self.drones.append(Drone(payload, init_pos, self.weights))
+            self.drones.append(Drone(params['payload'], self.warehouses[0].location, self.weights))
 
         self.score = 0.0
         self.solver = solver
@@ -35,7 +35,7 @@ class Simulation(object):
         print "caca"
         
     def run(self, commands):
-        isGiven = [false]*len(commands)
+        isGiven = [False]*len(commands)
         
         unloadDrones = []
         otherDrones = []
@@ -48,9 +48,9 @@ class Simulation(object):
                 if not drone.busy:
                     # on trouve la prochaine commande du drone
                     for k in range(len(commands)):
-                        command = command[k]
+                        command = commands[k]
                         if not isGiven[k] and command[0] == d:
-                            drone.command(shapeCommand(command))
+                            drone.takeCommand(self.shapeCommand(command))
                             isGiven[k] = True
                             
                 if drone.getOrderType() == 'U':
