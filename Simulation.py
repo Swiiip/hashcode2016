@@ -1,20 +1,17 @@
 class Simulation:
 
-    grid = (0, 0);
-    nbrRounds = 10;
-    drones = {};
-    orders = {};
-    warehouses = {};
 
-    def __init__(self, runningMethod):
-        print "init";
+    def __init__(self, paramDict, commandList):
+        for e in paramDict:
+            setattr(self, e, paramDict[e])
 
     def step(self):
-        print("Caca");
+        print "caca"
+        
         
 if __name__ == "__main__":
 
-    sim = Simulation("default");
+    sim = Simulation({"test" : "test2"})
 
     for i in range(sim.nbrRounds):
         sim.step();
