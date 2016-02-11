@@ -67,17 +67,22 @@ class Drone(object):
             self.timeleft -=1
         else:
             self.timeleft = 0
-            self.execute()
+            out = self.execute()
+            if out <> False:
+                return out
+            
             
             
     def execute(self):
+        self.busy =True
         if self.commandType == 'D':
-            self.deliver(self.command[2],self.command[3])
+            return self.deliver(self.command[2],self.command[3])
         if self.commandType == 'L':
             self.load(self.command[2],self.command[3],self.command[1])
+            return False
         if self.commandType == 'U':
             self.unload(self.command[2],self.command[3],self.command[1])
-        self.busy =True
+            return False
     
     def unload(self, objet,n, warehouse):
         unloaded = 0
@@ -99,7 +104,7 @@ class Drone(object):
     
     def deliver(self,objet,n):
         weight = self.weights[objet]
-        delivered = 0
+        delivered = False
         if objet not in self.payload:
             return delivered
         if self.payload[objet] >= n:
@@ -111,7 +116,7 @@ class Drone(object):
             delivered = self.payload[objet]
             self.payload[objet] = 0
             
-        return delivered
+        return self.command([1].deliver(objet,n))
     
     def __str__(self):
         return "Drone , maxPayload : " + str(self.payloadWeight) +"\n"
