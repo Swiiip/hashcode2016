@@ -19,7 +19,7 @@ class Simulation(object):
             self.orders.append(Order(place, invent_dict))
         self.drones = []
         for e in params['nb_drones']:
-            self.drones.append(Drone(payload, init_pos))
+            self.drones.append(Drone(payload, init_pos, self.weights))
 
         self.score = 0.0
         self.solver = solver
@@ -34,29 +34,50 @@ class Simulation(object):
     def step(self):
         print "caca"
         
-    def run(commands):
-        currentCommand = {} #dictionary : key = drone, value = commande en cours
-        currentState = {} # dictionary: key = drone, value = etat du drone
+    def run(self, commands):
         isGiven = [false]*len(commands)
         
+        unloadDrones = []
+        otherDrones = []
+        
         for i in range(sim.turns):
-            for d in range(len(self.drones)):
+            for d in range(self.drones):
                 drone = self.drones[d]
-                
+                               
                 #on check si le drone a bien une commande courrante
-                if not (drone in currentCommand):
+                if not drone.busy:
                     # on trouve la prochaine commande du drone
                     for k in range(len(commands)):
-                        if not isGiven[k] and command[k].drone == d:
-                            currentCommand[drone] = command[k]
-                
-                #on fait avancer la commande courrante
+                        command = command[k]
+                        if not isGiven[k] and command[0] == d:
+                            drone.command(shapeCommand(command))
+                            isGiven[k] = True
+                            
+                if drone.getOrderType() == 'U':
+                    unloadDrones.append(drone)
+                else:
+                    otherDrones.append(drone)
                     
-                
+            #on fait avancer/executer chaque drone
+            for drone in unloadDrones: # en commançant par ceux qui dechargent
+                drone.step()
+            for drone in otherDrones:
+                drone.step()
+    
+    def shapeCommand(self, command): # take a comand in the standard format (int and char only) and transfor object index into reference
+        symbol = command[1]
+        result = [symbol]
+        if symbol == "U" or symbol == "L":
+            result.append(self.warehouses[command[2]])
+            result += command[3:]
+        elif symbol == "D":
+            result.append(self.orders[command[2]])
+            result += command[3:]
+        elif symbol == "W":
+            result.append(command[2])
+                    
+        return result                       
         
-    def step():
-        miss
-
 
 if __name__ == "__main__":
     input_file = 'data/busy_day.in'
