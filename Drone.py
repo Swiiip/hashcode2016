@@ -46,8 +46,21 @@ class Drone(object):
             raise ValueError
         return 1
     
-    def __print__(self):
+    def deliver(self, objet,weight):
+        if objet in self.payload:
+            self.currentPayloadWeight -= weight
+            self.payload.remove(objet)
+        else:
+            raise ValueError
+    
+    def __str__(self):
         print "Drone id " + self.id + " , maxPayload : " + self.payloadWeight
-        print "payload" + self.payload
+        print "payload [" + self.payload + "]"
         print "current weight " + self.currentPayloadWeight
+        
+if __name__ == "__main__":
+    D = Drone(0,10,20,30)
+    print D
+    print D.goto(24,34)
+    print "BONGEOURRE"
         
