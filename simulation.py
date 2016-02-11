@@ -1,11 +1,14 @@
+from __future__ import division
 import parser
 
 
 class Simulation(object):
 
-    def __init__(self, paramDict):
+    def __init__(self, paramDict, solver):
         for e in paramDict:
             setattr(self, e, paramDict[e])
+        self.score = 0.0
+        self.solver = solver
 
     def __str__(self):
         s = ''
