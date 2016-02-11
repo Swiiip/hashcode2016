@@ -19,6 +19,29 @@ class Simulation(object):
 
     def step(self):
         print "caca"
+        
+    def run(commands):
+        currentCommand = {} #dictionary : key = drone, value = commande en cours
+        currentState = {} # dictionary: key = drone, value = etat du drone
+        isGiven = [false]*len(commands)
+        
+        for i in range(sim.turns):
+            for d in range(len(self.drones)):
+                drone = self.drones[d]
+                
+                #on check si le drone a bien une commande courrante
+                if not (drone in currentCommand):
+                    # on trouve la prochaine commande du drone
+                    for k in range(len(commands)):
+                        if not isGiven[k] and command[k].drone == d:
+                            currentCommand[drone] = command[k]
+                
+                #on fait avancer la commande courrante
+                    
+                
+        
+    def step():
+        miss
 
 
 if __name__ == "__main__":
@@ -26,5 +49,4 @@ if __name__ == "__main__":
     params = parser.parse(input_file)
     sim = Simulation(params)
     print(sim)
-    for i in range(sim.turns):
-        sim.step();
+
